@@ -1,4 +1,5 @@
 from graphics import Canvas
+import requests
     
 CANVAS_WIDTH = 500
 CANVAS_HEIGHT = 500
@@ -11,6 +12,7 @@ def main():
     draw_button()
     canvas.clear()
     load_image()
+    submit_API()
     canvas.clear()
     return_results()
 
@@ -35,12 +37,13 @@ def draw_button():
             draw_button()
 
 def load_image():
+    image = "/Users/majid/Downloads/vaccinium-boreale-le-ahaines-a.jpg"
     canvas.create_image_with_size(
     (CANVAS_WIDTH/2 - 200),
     (0),
     400,
     400,
-    'vaccinium-boreale-le-ahaines-a.jpg'
+    image
 )   
     Start_X = (CANVAS_WIDTH/2)-(BUTTON_WIDTH/2)
     Start_Y = CANVAS_HEIGHT*.8
@@ -59,6 +62,44 @@ def load_image():
             canvas.clear()
             load_image()
 
+def submit_api()
+#submits user photo to the Plantnet API
+    image = "/Users/majid/Downloads/vaccinium-boreale-le-ahaines-a.jpg"
+    #my personal API KEy
+    API_KEY = "2b108OvWhxjjceSLhrfgWXn0He"
+#The base URL for posting a query to the API for identification
+    API_BASE_URL = https://my-api.plantnet.org/v2/identify/all
+image = 
+
+def search_articles(search_term):
+    params = {
+        "q" : search_term,
+        "api-key": API_KEY
+    }
+    response = requests.get(API_BASE_URL, params)
+    requests.get(API_BASE_URL, params)
+        return response.json()
+
+def display_results(search_results)
+    docs = search_results["response"]["docs"]
+
+    for doc in docs:
+        article_web_url = doc["web_url"]
+        article_headline = doc["headline"]["main"]
+
+        print(articl_headline + " (" + article_we_url + ")")
+
+search_term = input("Your search term")
+search_results = search_articles(search_term)
+display_results(search_results)
+
+"""service: https://my-api.plantnet.org/v2/
+
+image_1: images=/data/media/image_1.jpeg
+image_2: images=/data/media/image_2.jpeg
+organ_1: organs=flower
+organ_2: organs=leaf
+"""
 def return_results():
     canvas.create_text((CANVAS_WIDTH*.25), (CANVAS_HEIGHT*.103), "Your plant is vaccinium-boreale")
     canvas.create_text((CANVAS_WIDTH*.25), (CANVAS_HEIGHT*.133), "Here is a link to more information")
