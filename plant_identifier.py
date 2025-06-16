@@ -1,5 +1,7 @@
 from graphics import Canvas
+from pprint import pprint
 import requests
+import json
     
 CANVAS_WIDTH = 500
 CANVAS_HEIGHT = 500
@@ -12,12 +14,13 @@ def main():
     draw_button()
     canvas.clear()
     load_image()
-    submit_API()
+    submit_api()
     canvas.clear()
     return_results()
 
 #User submits a photo by clicking a button and uploading a photo
 #Draw button with text
+#Stil needs file handling operation implemented
 def draw_button():
     Start_X = (CANVAS_WIDTH/2)-(BUTTON_WIDTH/2)
     Start_Y = (CANVAS_HEIGHT/2) - (BUTTON_HEIGHT/2)
@@ -37,6 +40,7 @@ def draw_button():
             draw_button()
 
 def load_image():
+    #Max POST (total size of photos sent) size: 52428800 bytes
     image = "/Users/majid/Downloads/vaccinium-boreale-le-ahaines-a.jpg"
     canvas.create_image_with_size(
     (CANVAS_WIDTH/2 - 200),
@@ -62,45 +66,56 @@ def load_image():
             canvas.clear()
             load_image()
 
-def submit_api()
-#submits user photo to the Plantnet API
-    image = "/Users/majid/Downloads/vaccinium-boreale-le-ahaines-a.jpg"
-    #my personal API KEy
-    API_KEY = "2b108OvWhxjjceSLhrfgWXn0He"
-#The base URL for posting a query to the API for identification
-    API_BASE_URL = https://my-api.plantnet.org/v2/identify/all
-image = 
 
-def search_articles(search_term):
-    params = {
-        "q" : search_term,
+
+def submit_api(search_term):
+#submits user photo to the Plantnet API
+#NEEDS UI loading screen
+    API_KEY = "2b108OvWhxjjceSLhrfgWXn0He"	# Your API_KEY here
+    PROJECT = "all"; # try specific floras: "weurope", "canada"…
+    api_endpoint = f"https://my-api.plantnet.org/v2/identify/{PROJECT}?api-key={API_KEY}"
+
+    image_path_1 = "/Users/majid/Downloads/vaccinium-boreale-le-ahaines-a.jpg"
+    image_data_1 = open(image_path_1, 'rb')
+
+    #image_path_2 = "../data/image_2.jpeg"
+    #image_data_2 = open(image_path_2, 'rb')
+
+    data = { 'organs': ['flower', 'leaf'] }
+
+    files = [
+    ('images', (image_path_1, image_data_1)),
+    #('images', (image_path_2, image_data_2))
+    ]
+
+    req = requests.Request('POST', url=api_endpoint, files=files, data=data)
+    prepared = req.prepare()
+
+    s = requests.Session()
+    response = s.send(prepared)
+    json_result = json.loads(response.text)
+
+    pprint(response.status_code)
+    pprint(json_result)
+
+"""    image = "/Users/majid/Downloads/vaccinium-boreale-le-ahaines-a.jpg"
+    API_KEY = "2b108OvWhxjjceSLhrfgWXn0He"
+    API_BASE_URL = https://my-api.plantnet.org/v2/identify/all
+    
+    params = {   
+        "project": "all",
+        "images": [image],
+        #Available Organs values : leaf, flower, fruit, bark, auto
+        "organs": ["auto"],
         "api-key": API_KEY
     }
     response = requests.get(API_BASE_URL, params)
-    requests.get(API_BASE_URL, params)
-        return response.json()
-
-def display_results(search_results)
-    docs = search_results["response"]["docs"]
-
-    for doc in docs:
-        article_web_url = doc["web_url"]
-        article_headline = doc["headline"]["main"]
-
-        print(articl_headline + " (" + article_we_url + ")")
-
-search_term = input("Your search term")
-search_results = search_articles(search_term)
-display_results(search_results)
-
-"""service: https://my-api.plantnet.org/v2/
-
-image_1: images=/data/media/image_1.jpeg
-image_2: images=/data/media/image_2.jpeg
-organ_1: organs=flower
-organ_2: organs=leaf
+    return response.json()
 """
-def return_results():
+
+def return_results(json_result):
+    #Display original image submissions along with the API result with a link to plant dicitonary page
+    
     canvas.create_text((CANVAS_WIDTH*.25), (CANVAS_HEIGHT*.103), "Your plant is vaccinium-boreale")
     canvas.create_text((CANVAS_WIDTH*.25), (CANVAS_HEIGHT*.133), "Here is a link to more information")
     canvas.create_text((CANVAS_WIDTH*.25), (CANVAS_HEIGHT*.163), "https://en.wikipedia.org/wiki/Vaccinium_formosum")
