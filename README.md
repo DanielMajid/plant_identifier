@@ -1,0 +1,1 @@
+This program is designed to be an open source and free plant-identifier program. It will begin as a program that will need to be run from a desktop or laptop, with photos for identification on a local drive. Eventually I plan to adapt this code to a mobile platform along with the functionality of submiting photos that have just been taken with the phone's camera.
