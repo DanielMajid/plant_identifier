@@ -1,8 +1,12 @@
-from graphics import Canvas
+import tkinter as tk
+from tkinter import filedialog
+import pprint
 from pprint import pprint
 import requests
 import json
-    
+
+#this quoted out portion needs reformatted to reflect Tkinter protocol
+"""    
 CANVAS_WIDTH = 500
 CANVAS_HEIGHT = 500
 BUTTON_WIDTH = 110
@@ -17,11 +21,13 @@ def main():
     submit_api()
     canvas.clear()
     return_results()
-
+"""
 #User submits a photo by clicking a button and uploading a photo
 #Draw button with text
 #Stil needs file handling operation implemented
 def draw_button():
+    #this portion needs to be reformatted to align with Tkinter protocol
+    """
     Start_X = (CANVAS_WIDTH/2)-(BUTTON_WIDTH/2)
     Start_Y = (CANVAS_HEIGHT/2) - (BUTTON_HEIGHT/2)
     COLOR = "white"
@@ -30,11 +36,16 @@ def draw_button():
     canvas.create_text(CANVAS_WIDTH/2, (CANVAS_HEIGHT/2), "UPLOAD A PLANT", anchor = "center")
 #Waits for user to click on the button    
     canvas.wait_for_click()
+    """
     while True:
         x = canvas.get_mouse_x()
         y = canvas.get_mouse_y()
         if Start_X <= x <= (Start_X + BUTTON_WIDTH) and Start_Y <= y <= (Start_Y + BUTTON_HEIGHT):
-            break
+            root = tk.Tk()
+            root.withdraw()  # Hide the root window
+
+            file_path = filedialog.askopenfilename()
+            # need to pass this result to the submit_api function >>print(file_path)
         else:
             canvas.clear()
             draw_button()
