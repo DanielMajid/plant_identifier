@@ -1,35 +1,50 @@
-import tkinter as tk
-from tkinter import filedialog
+import filedialog
 import pprint
 from pprint import pprint
 import requests
 import json
+from js import document
 
     
-CANVAS_WIDTH = 500
-CANVAS_HEIGHT = 500
-BUTTON_WIDTH = 110
-BUTTON_HEIGHT = 20
-canvas = Canvas(CANVAS_WIDTH, CANVAS_HEIGHT)
 
 
-def main():
-    draw_button()
 
-    def draw_button():
-        while True:
-            x = canvas.get_mouse_x()
-            y = canvas.get_mouse_y()
-            if Start_X <= x <= (Start_X + BUTTON_WIDTH) and Start_Y <= y <= (Start_Y + BUTTON_HEIGHT):
-                root = tk.Tk()
-                root.withdraw()  # Hide the root window
+def find_file():
+    file_path = filedialog.askopenfilename()
+    return file_path
+    # need to pass this result to the submit_api function >>print(file_path)
+            
+def load_photo(file_path):
 
-                file_path = filedialog.askopenfilename()
-                # need to pass this result to the submit_api function >>print(file_path)
-            else:
-                canvas.clear()
-                draw_button()
+def submit_api(file_path):
+    #submits user photo to the Plantnet API
+    API_KEY = "2b108OvWhxjjceSLhrfgWXn0He"	# Your API_KEY here
+    PROJECT = "all"; # try specific floras: "weurope", "canada"…
+    api_endpoint = f"https://my-api.plantnet.org/v2/identify/{PROJECT}?api-key={API_KEY}"
 
+    image_path_1 = "/Users/majid/Downloads/vaccinium-boreale-le-ahaines-a.jpg"
+    image_data_1 = open(image_path_1, 'rb')
+
+    #image_path_2 = "../data/image_2.jpeg"
+    #image_data_2 = open(image_path_2, 'rb')
+
+    data = { 'organs': ['flower', 'leaf'] }
+
+    files = [
+    ('images', (image_path_1, image_data_1)),
+    #('images', (image_path_2, image_data_2))
+    ]
+
+    req = requests.Request('POST', url=api_endpoint, files=files, data=data)
+    prepared = req.prepare()
+
+    s = requests.Session()
+    response = s.send(prepared)
+    json_result = json.loads(response.text)
+
+    pprint(response.status_code)
+    pprint(json_result)
+       
 
 if __name__ == '__main__':
     main()

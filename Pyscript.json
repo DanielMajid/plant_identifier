@@ -1,0 +1,3 @@
+{
+    "packages": ["js", "filedialog", "pprint", "json", "requests"]
+}

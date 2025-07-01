@@ -50,9 +50,9 @@ def draw_button():
             canvas.clear()
             draw_button()
 
-def load_image():
+def load_image(file_path):
     #Max POST (total size of photos sent) size: 52428800 bytes
-    image = "/Users/majid/Downloads/vaccinium-boreale-le-ahaines-a.jpg"
+    image = file_path
     canvas.create_image_with_size(
     (CANVAS_WIDTH/2 - 200),
     (0),
@@ -79,7 +79,7 @@ def load_image():
 
 
 
-def submit_api(search_term):
+def submit_api(file_path):
 #submits user photo to the Plantnet API
 #NEEDS UI loading screen
     API_KEY = "2b108OvWhxjjceSLhrfgWXn0He"	# Your API_KEY here
