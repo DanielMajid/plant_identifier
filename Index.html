@@ -3,25 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://pyscript.net/releases/2025.5.1/core.css">
-    <script type="module" src="https://pyscript.net/releases/2025.5.1/core.js"></script>
+    <link rel="stylesheet" href="https://pyscript.net/releases/2025.7.1/core.css">
+    <script type="module" src="https://pyscript.net/releases/2025.7.1/core.js"></script>
     <title>Botanic</title>
 </head>
 <body>
     <h1> BOTANIC</h1>
     <h2>Plant Identifier</h2>
-    <div id="Direction Copy"></div> <h3>Please select a filepath</h3>
-    <div id="Body Copy">
+    <div id="body_copy">
+        <h3>Please select a filepath</h3>
         <p>Choose up to 5 file paths.</p>
         <p>All photos must be of the same plant</p>
         <p>For best results, use photos larger than 800x800px</p>
         <p>Total size of submission should not exceed 50mb</p>
     </div>
-    <div id= "file-input">
-        <input type="file" id="file-selector" multiple>
-    </div>
-        <script type= "py" src="./Python_1_index.py" config="./pyscript.json"></script>
-    <p></p><button py click="submit_api">Submit Photos</button>
-    <script type= "py" src="./Python_1_index.py" config="./pyscript.json"></script>
+    <div id="file-input">
+        <input type="file" id="my_file" multiple>
+        </div>
+    <div id="output"></div>
+    <button py-click="submit_api">Submit Photos</button>
+    <script type= "py" src="./Python_1_index.py" config="./Pyscript.json"></script>
     </body>
 </html>
